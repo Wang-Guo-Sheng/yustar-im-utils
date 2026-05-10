@@ -1,0 +1,34 @@
+# 在原有基础上添加配置
+
+switches:
+  - name: q_add_word
+    states: ["输入", "造词"]
+    reset: 0
+    # Control+Shift+Q
+  - name: cycle_select
+    states: ["修改", "修改"]
+    reset: 0
+    # Control+ Shift+ E
+    # 配合使用 PowerToys 快捷键映射: Alt_Right ➜ Control+ Shift+ E
+
+engine:
+  processors:
+    - lua_processor@*yuhao.cycle_select@ccsel #  循环候选词
+    - lua_processor@*yuhao.quick_add_word@qaw  #  造词  # 放在processors 开头
+    - lua_processor@*yuhao.yuhao_switch_proc@yuhao_macro
+  filters:
+    - uniquifier
+    - lua_filter@*yuhao.cycle_select_filter #  循环候选词 # 放在 filters 结尾
+
+key_binder:
+  bindings:
+    - {
+        when: always,
+        accept: "Control+Shift+Q",
+        toggle: q_add_word,
+      } # 20260504 # 造词
+    - {
+        when: always,
+        accept: "Control+Shift+E",
+        toggle: cycle_select,
+      } # 20260509 循环候选词

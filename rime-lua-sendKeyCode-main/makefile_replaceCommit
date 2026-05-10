@@ -1,0 +1,37 @@
+CC = gcc
+CFLAGS = -Ilua -L. -O2
+
+SRC = replaceCommit.c
+OBJ = $(SRC:.c=.o)
+
+ifeq ($(OS),Windows_NT)
+    LIBS = -luser32 -lrime
+    TARGET = replaceCommit.dll
+    RM = del /Q
+    FIX_PATH = $(subst /,\,$1)
+else
+    UNAME_S := $(shell uname -s)
+    ifeq ($(UNAME_S), Linux)
+        LIBS = -lX11 -lXtst -lrime
+        TARGET = replaceCommit.so
+    endif
+    ifeq ($(UNAME_S), Darwin)
+        LIBS = -framework ApplicationServices -lrime-lua
+        TARGET = replaceCommit.so
+    endif
+    RM = rm -f
+    FIX_PATH = $1
+endif
+
+all: $(TARGET)
+
+$(TARGET): $(OBJ)
+	$(CC) -shared -fPIC -o $@ $^ $(CFLAGS) $(LIBS)
+
+%.o: %.c
+	$(CC) -c $< -o $@ $(CFLAGS)
+
+clean:
+	$(RM) $(call FIX_PATH,$(OBJ) $(TARGET))
+
+.PHONY: all clean
