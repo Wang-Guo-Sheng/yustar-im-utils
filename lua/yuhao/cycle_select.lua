@@ -12,7 +12,7 @@
 -- 修改INPUT_PUSH在两种模式中选择：
 -- 为true时删除时自动弹出上一个词的编码，可以直接重新选词
 -- 为false时删除后不弹出编码，再次按下则自动上屏上一个词的第二候选
---  第三次一下再次删除，再按下时自动上屏第三候选，依此类推
+--  第三次按下再次删除，再按下时自动上屏第三候选，依此类推
 
 local INPUT_PUSH = false  -- True: re-push input code; False: cycle-select candidates
 
