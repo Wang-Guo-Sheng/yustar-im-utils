@@ -199,7 +199,7 @@ function ccsel.init(env)
       -- 记录状态，等待再按一次
       shr.allow_delete = true
       -- 恢复使用上一组候选词
-      -- last 本身并未更新，所以不用恢复
+      -- `last` 本身并未更新，所以不用恢复
       shr.cands = copy_table(shr.last_cands)
       -- return --取消注释则第一次按下只清除输入框
     end
